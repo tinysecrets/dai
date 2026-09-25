@@ -70,6 +70,7 @@ case "$cmd" in
   hatch)   exec "$ROOT/bin/hatch-vellum.sh" "$@" ;;
   repair)  exec "$ROOT/bin/dai-repair" "$@" ;;
   unify)   exec "$ROOT/bin/dai-unify" "$@" ;;
+  assistant|runtime|everything-online) exec "$ROOT/bin/dai-assistant" "$@" ;;
 
   status)
     printf '\n=== D-A-I STATUS ===\n'

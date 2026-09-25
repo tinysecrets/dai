@@ -1,0 +1,19 @@
+[Unit]
+Description=DAI Assistant runtime (brain, memory, voice, GUI hands and command center)
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+Environment=HOME=%h
+Environment=PATH=%h/.bun/bin:/usr/local/bin:/usr/bin:/bin
+WorkingDirectory=%h/dai
+ExecStartPre=%h/dai/bin/start-spine.sh
+ExecStartPre=%h/.bun/bin/vellum wake debian-ai
+ExecStart=%h/dai/bin/omni-daemon.py --interval 60
+Restart=always
+RestartSec=8
+KillMode=control-group
+
+[Install]
+WantedBy=default.target
