@@ -22,7 +22,11 @@ DAI_REPO_ROOT="${DAI_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 DAI_ENV_FILE="${DAI_ENV_FILE:-${DAI_ENV:-$DAI_REPO_ROOT/.env}}"
 DAI_STATE_DIR="${DAI_STATE_DIR:-$DAI_REPO_ROOT/state}"
 DAI_LOG_DIR="${DAI_LOG_DIR:-$DAI_REPO_ROOT/logs}"
-DAI_POLICY_FILE="${DAI_POLICY_FILE:-${DAI_POLICY:-$DAI_REPO_ROOT/policy/sovereign.json}}"
+if [[ -z "${DAI_POLICY_FILE:-}" && -z "${DAI_POLICY:-}" && -f "$DAI_REPO_ROOT/state/agent-s-runtime-policy.json" ]]; then
+  DAI_POLICY_FILE="$DAI_REPO_ROOT/state/agent-s-runtime-policy.json"
+else
+  DAI_POLICY_FILE="${DAI_POLICY_FILE:-${DAI_POLICY:-$DAI_REPO_ROOT/policy/sovereign.json}}"
+fi
 DAI_APPROVALS_FILE="${DAI_APPROVALS_FILE:-${DAI_APPROVALS:-$DAI_REPO_ROOT/policy/approvals.json}}"
 
 export DAI_REPO_ROOT DAI_ENV_FILE DAI_STATE_DIR DAI_LOG_DIR DAI_POLICY_FILE DAI_APPROVALS_FILE

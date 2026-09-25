@@ -60,12 +60,12 @@ echo "[4/5] Creating clean clickable launchers on Desktop..."
 mkdir -p "$HOME/.local/share/applications" "$HOME/Desktop" "$HOME/Desktop/00_COMMAND_CENTER"
 
 # Clickable Dictate Launcher (No keyboard needed)
-cat << 'EOF' > "$HOME/.local/share/applications/dhakidd-dictate-toggle.desktop"
+cat <<EOF > "$HOME/.local/share/applications/dhakidd-dictate-toggle.desktop"
 [Desktop Entry]
 Type=Application
 Name=🎤 Dictate (Toggle)
 Comment=Toggle Whisper speech-to-text dictation into active window
-Exec=/home/justin/.local/bin/dhakidd-dictate
+Exec=$HOME/.local/bin/dhakidd-dictate
 Icon=audio-input-microphone
 Terminal=false
 Categories=Utility;Audio;
@@ -75,12 +75,12 @@ cp -f "$HOME/.local/share/applications/dhakidd-dictate-toggle.desktop" "$HOME/De
 cp -f "$HOME/.local/share/applications/dhakidd-dictate-toggle.desktop" "$HOME/Desktop/"
 
 # DAI Gemini Live Launcher
-cat << 'EOF' > "$HOME/.local/share/applications/dai-gemini.desktop"
+cat <<EOF > "$HOME/.local/share/applications/dai-gemini.desktop"
 [Desktop Entry]
 Type=Application
 Name=D-A-I Gemini Live
 Comment=Continuous sovereign voice assistant (Ava Neural, S22 mic)
-Exec=/home/justin/dai-assistant/bin/dai gemini
+Exec=$HOME/dai-assistant/bin/dai gemini
 Icon=applications-multimedia
 Terminal=true
 Categories=Utility;Audio;AI;

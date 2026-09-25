@@ -66,8 +66,13 @@ if [[ "$LIVE" != "True" ]]; then
   exit 0
 fi
 
-TOKEN=$("$ROOT/bin/issue-approval.sh" agent_s_gui_task "$INSTR" 2>/dev/null | grep -v "^\[" | tail -n1 | xargs)
-if [[ -z "$TOKEN" ]]; then dai_die "could not issue approval token — check policy/approvals.json"; fi
-dai_ok "approval token issued for: $INSTR"
-
-DAI_APPROVAL_TOKEN="$TOKEN" python3 "$ROOT/skills/agent-s-delegate/scripts/delegate_task.py" --instruction "$INSTR" --live
+REQUIRE_APPROVAL=$(echo "$HEALTH" | python3 -c "import json,sys; print(json.load(sys.stdin).get('require_approval_token',True))" 2>/dev/null || echo True)
+if [[ "$REQUIRE_APPROVAL" == "True" ]]; then
+  TOKEN=$("$ROOT/bin/issue-approval.sh" agent_s_gui_task "$INSTR" 2>/dev/null | grep -v "^\[" | tail -n1 | xargs)
+  [[ -n "$TOKEN" ]] || dai_die "could not issue approval token — check policy/approvals.json"
+  dai_ok "approval token issued for: $INSTR"
+  DAI_APPROVAL_TOKEN="$TOKEN" python3 "$ROOT/skills/agent-s-delegate/scripts/delegate_task.py" --instruction "$INSTR" --live
+else
+  dai_ok "live policy does not require an approval token"
+  python3 "$ROOT/skills/agent-s-delegate/scripts/delegate_task.py" --instruction "$INSTR" --live
+fi

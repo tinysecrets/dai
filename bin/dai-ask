@@ -71,12 +71,14 @@ case "$MODE" in
       if [[ -f "$d/$INPUT.txt" ]]; then INSTR=$(cat "$d/$INPUT.txt"); break; fi
     done
     [[ -n "$INSTR" ]] || INSTR="$INPUT"
-    TOKEN=$("$ROOT/bin/issue-approval.sh" agent_s_gui_task "$INSTR" 2>/dev/null | tail -n1 || true)
-    if [[ -z "$TOKEN" ]]; then
-      dai_warn "no approval token — running dry-run first"
-      python3 "$ROOT/skills/agent-s-delegate/scripts/delegate_task.py" --instruction "$INSTR"
-    else
+    HEALTH=$(curl -s --max-time 3 "http://127.0.0.1:8765/health" || echo "{}")
+    REQUIRE_APPROVAL=$(echo "$HEALTH" | python3 -c "import json,sys; print(json.load(sys.stdin).get('require_approval_token',True))" 2>/dev/null || echo True)
+    if [[ "$REQUIRE_APPROVAL" == "True" ]]; then
+      TOKEN=$("$ROOT/bin/issue-approval.sh" agent_s_gui_task "$INSTR" 2>/dev/null | tail -n1 || true)
+      [[ -n "$TOKEN" ]] || dai_die "could not issue approval token — check policy/approvals.json"
       DAI_APPROVAL_TOKEN="$TOKEN" python3 "$ROOT/skills/agent-s-delegate/scripts/delegate_task.py" --instruction "$INSTR" --live
+    else
+      python3 "$ROOT/skills/agent-s-delegate/scripts/delegate_task.py" --instruction "$INSTR" --live
     fi
     ;;
   code)

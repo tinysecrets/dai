@@ -23,13 +23,13 @@ if ! command -v xbindkeys >/dev/null 2>&1; then
     sudo apt-get update -qq && sudo apt-get install -y -qq xbindkeys 2>/dev/null || true
 fi
 
-cat << 'EOF' > "$HOME/.xbindkeysrc"
+cat <<EOF > "$HOME/.xbindkeysrc"
 # Dedicated F9 Instant Dictation Key
-"/home/justin/.local/bin/dhakidd-dictate"
+"$HOME/.local/bin/dhakidd-dictate"
     F9
 
 # Dedicated Pause Key
-"/home/justin/.local/bin/dhakidd-dictate"
+"$HOME/.local/bin/dhakidd-dictate"
     Pause
 EOF
 
@@ -39,12 +39,12 @@ nohup xbindkeys >/dev/null 2>&1 &
 
 # 3. Refresh Desktop Icon and Mark Trusted
 LAUNCHER_PATH="$HOME/.local/share/applications/dhakidd-dictate-toggle.desktop"
-cat << 'EOF' > "$LAUNCHER_PATH"
+cat <<EOF > "$LAUNCHER_PATH"
 [Desktop Entry]
 Type=Application
 Name=🎤 Instant Dictate
 Comment=Tap F9 or click here, speak into S22, and it pastes automatically
-Exec=/home/justin/.local/bin/dhakidd-dictate
+Exec=$HOME/.local/bin/dhakidd-dictate
 Icon=audio-input-microphone
 Terminal=false
 Categories=Utility;Audio;

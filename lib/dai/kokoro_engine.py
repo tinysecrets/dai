@@ -4,6 +4,7 @@
 """
 from __future__ import annotations
 
+import importlib
 import os
 import subprocess
 import sys
@@ -54,7 +55,7 @@ def get_kokoro():
             if not ensure_kokoro_installed():
                 return None
         try:
-            from kokoro_onnx import Kokoro
+            Kokoro = importlib.import_module("kokoro_onnx").Kokoro
             _kokoro_instance = Kokoro(str(MODEL_PATH), str(VOICES_PATH))
         except Exception as e:
             print(f"[Kokoro Init Error]: {e}")
@@ -69,7 +70,7 @@ def synthesize_speech(text: str, voice: str = "af_heart", speed: float = 1.05) -
         return None
 
     try:
-        import soundfile as sf
+        sf = importlib.import_module("soundfile")
         samples, sample_rate = k.create(text, voice=voice, speed=speed, lang="en-us")
         with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
             tmp_wav = f.name

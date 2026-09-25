@@ -9,7 +9,7 @@ import argparse
 from pathlib import Path
 
 # Add dai-assistant lib to path
-DAI_ROOT = Path(os.environ.get("DAI_ROOT", Path.home() / "workspace/projects/active/dai-assistant")).resolve()
+DAI_ROOT = Path(os.environ.get("DAI_ROOT", Path.home() / "dai-assistant")).resolve()
 if str(DAI_ROOT) not in sys.path:
     sys.path.insert(0, str(DAI_ROOT))
 
@@ -24,7 +24,7 @@ def main():
     args = parser.parse_args()
 
     # Write PID file for external management
-    pid_file = Path(os.environ.get("DAI_ROOT", Path.home() / "workspace/projects/active/dai-assistant")) / "state/omni" / "daemon.pid"
+    pid_file = Path(os.environ.get("DAI_ROOT", Path.home() / "dai-assistant")) / "state/omni" / "daemon.pid"
     pid_file.parent.mkdir(parents=True, exist_ok=True)
     pid_file.write_text(str(os.getpid()))
 

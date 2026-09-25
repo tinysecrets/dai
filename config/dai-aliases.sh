@@ -15,7 +15,7 @@ alias dtasks='curl -s http://127.0.0.1:8765/v1/tasks | python3 -m json.tool | ta
 alias dcooldowns='curl -s http://127.0.0.1:11435/v1/status/cooldowns | python3 -m json.tool'
 
 # Everything hotkey helper - bind Ctrl+Alt+Space to dai-ask --listen in Debian Settings > Keyboard > Custom Shortcuts
-# Command: /home/user/dai-assistant/bin/dai-ask --listen
+# Command: $HOME/dai-assistant/bin/dai-ask --listen
 
 # Dashboard as homepage - set in Chromium: http://127.0.0.1:8799
 # Tailscale Serve for phone/remote: tailscale serve --bg http://127.0.0.1:8799

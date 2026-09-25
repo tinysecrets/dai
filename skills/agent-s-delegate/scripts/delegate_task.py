@@ -68,7 +68,7 @@ def load_policy(path: Path) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
 
 
 def policy_path() -> Path:
-    return Path(os.environ.get("DAI_POLICY", str(DEFAULT_POLICY))).expanduser()
+    return Path(os.environ.get("DAI_POLICY_FILE") or os.environ.get("DAI_POLICY") or str(DEFAULT_POLICY)).expanduser()
 
 
 def load_agent_s_policy() -> Tuple[Dict[str, Any], Optional[str]]:
@@ -243,9 +243,9 @@ def main(argv: Optional[list] = None) -> int:
         return usage_error("--instruction must be 4000 characters or fewer")
 
     token = args.approval_token or os.environ.get("DAI_APPROVAL_TOKEN") or ""
-    if args.live and not token.strip():
+    if args.live and not token.strip() and bool(agent_s_policy.get("require_approval_token", True)):
         return usage_error(
-            "--live needs an approval token. "
+            "--live needs an approval token under the active policy. "
             'TOKEN=$(./bin/issue-approval.sh agent_s_gui_task "<exact instruction>"); '
             'export DAI_APPROVAL_TOKEN="$TOKEN"  # preferred over --approval-token'
         )
