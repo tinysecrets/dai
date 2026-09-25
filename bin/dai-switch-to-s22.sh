@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # S22 Ultra Universal Microphone & Dictator Setup
-# Retires LG G8, activates S22 self-healing mic (USB + Wi-Fi/Tailscale),
+# Activates the S22 self-healing microphone (USB + Wi-Fi/Tailscale),
 # fixes Super+D keybinding, and adds clickable Dictate launcher.
 # ==============================================================================
 
@@ -23,13 +23,10 @@ echo "================================================================="
 ROOT_DIR="$HOME/dai-assistant"
 [ -d "$ROOT_DIR" ] || ROOT_DIR="$HOME/dai"
 
-# --- 2. Retire LG G8 Mic Services & Cleanup ---
-echo "[1/5] Retiring old LG G8 services..."
-systemctl --user stop audiosource-g8.service g8-mic-router.service 2>/dev/null || true
-systemctl --user disable audiosource-g8.service g8-mic-router.service 2>/dev/null || true
+# --- 2. Clean obsolete microphone state ---
+echo "[1/5]  Cleaning obsolete microphone state..."
 
 # Unload any stale LG G8 pulse modules
-for id in $(pactl list short modules 2>/dev/null | grep -E 'android-87f1610' | awk '{print $1}'); do
     pactl unload-module "$id" 2>/dev/null || true
 done
 
@@ -40,7 +37,6 @@ rm -f "$HOME/.local/state/dhakidd-dictate/recording.pid" "$HOME/.local/state/dha
 # --- 3. Activate the verified S22 AudioSource path ---
 echo "[2/5] Activating persistent S22 AudioSource microphone..."
 systemctl --user daemon-reload
-systemctl --user disable --now audiosource-g8.service g8-mic-router.service s22-mic.service 2>/dev/null || true
 systemctl --user enable --now audiosource-s22.service s22-mic-router.service
 echo "  -> audiosource-s22.service + s22-mic-router.service active."
 

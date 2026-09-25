@@ -109,8 +109,6 @@ WantedBy=default.target
 EOF
 
 systemctl --user daemon-reload
-systemctl --user stop s22-mic.service 2>/dev/null || true
-systemctl --user disable s22-mic.service 2>/dev/null || true
 
 systemctl --user enable --now audiosource-s22.service s22-mic-router.service
 sleep 3
