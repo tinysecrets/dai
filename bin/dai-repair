@@ -9,7 +9,6 @@ fixsvc(){ local s="$1"; systemctl --user daemon-reload >/dev/null 2>&1 || system
 printf 'D-A-I Repair Center\n===================\n' | tee "$log"
 fixsvc audiosource-s22.service
 fixsvc s22-mic-router.service
-systemctl --user disable --now s22-mic.service 2>/dev/null || true
 SRC=android-4f3b250
 if pactl list short sources 2>/dev/null | awk '{print $2}' | grep -qx "$SRC"; then
   pactl set-source-mute "$SRC" false 2>/dev/null || true

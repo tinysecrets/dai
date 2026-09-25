@@ -140,10 +140,10 @@ def get_mic_device() -> tuple[str | None, str]:
             subprocess.run(["pactl", "set-source-mute", "s22-mic", "false"], stderr=subprocess.DEVNULL, env=os.environ)
             subprocess.run(["pactl", "set-source-volume", "s22-mic", "100%"], stderr=subprocess.DEVNULL, env=os.environ)
             return "s22-mic", "Samsung S22 Ultra (s22-mic)"
-        if "android-87f1610" in out:
-            subprocess.run(["pactl", "set-source-mute", "android-87f1610", "false"], stderr=subprocess.DEVNULL, env=os.environ)
-            subprocess.run(["pactl", "set-source-volume", "android-87f1610", "100%"], stderr=subprocess.DEVNULL, env=os.environ)
-            return "android-87f1610", "LG G8 (android-87f1610)"
+        if "android-4f3b250" in out:
+            subprocess.run(["pactl", "set-source-mute", "android-4f3b250", "false"], stderr=subprocess.DEVNULL, env=os.environ)
+            subprocess.run(["pactl", "set-source-volume", "android-4f3b250", "100%"], stderr=subprocess.DEVNULL, env=os.environ)
+            return "android-4f3b250", "Samsung S22 (android-4f3b250)"
         lines = [line.split()[1] for line in out.strip().splitlines() if ".monitor" not in line and len(line.split()) >= 2]
         if lines:
             return lines[0], f"Pulse ({lines[0]})"

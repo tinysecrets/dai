@@ -26,9 +26,8 @@ ROOT_DIR="$HOME/dai-assistant"
 # --- 2. Clean obsolete microphone state ---
 echo "[1/5]  Cleaning obsolete microphone state..."
 
-# Unload any stale LG G8 pulse modules
-    pactl unload-module "$id" 2>/dev/null || true
-done
+# Obsolete phone-module cleanup retired; persistent S22 services own the audio path.
+true
 
 # Kill any stuck ffmpeg dictation processes and reset lock
 killall -q ffmpeg 2>/dev/null || true

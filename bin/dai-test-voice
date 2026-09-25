@@ -22,16 +22,16 @@ else
   printf "${RED}FAILED${NC} (Cannot connect to audio server. Run: systemctl --user restart pipewire pipewire-pulse)\n"
 fi
 
-# 2. Check LG G8 Mic source
+# 2. Check Samsung S22 Mic source
 printf "2. Microphone Sources:\n"
-SRC="android-87f1610"
+SRC="android-4f3b250"
 if pactl list short sources 2>/dev/null | grep -q "$SRC"; then
   pactl set-source-mute "$SRC" false 2>/dev/null || true
   pactl set-source-volume "$SRC" 100% 2>/dev/null || true
   pactl set-default-source "$SRC" 2>/dev/null || true
-  printf "   - LG G8 Phone Mic (${CYAN}%s${NC}): ${GREEN}FOUND & UNMUTED${NC} (Volume: 100%%)\n" "$SRC"
+  printf "   - Samsung S22 Phone Mic (${CYAN}%s${NC}): ${GREEN}FOUND & UNMUTED${NC} (Volume: 100%%)\n" "$SRC"
 else
-  printf "   - LG G8 Phone Mic (${YELLOW}%s${NC}): ${RED}NOT FOUND IN PULSE${NC}\n" "$SRC"
+  printf "   - Samsung S22 Phone Mic (${YELLOW}%s${NC}): ${RED}NOT FOUND IN PULSE${NC}\n" "$SRC"
   printf "     Available sources:\n"
   pactl list short sources 2>/dev/null | awk '{print "       * "$2}' || true
 fi

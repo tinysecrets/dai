@@ -174,11 +174,8 @@ def get_active_adb_device() -> str | None:
             pass
 
     # 4. Any other non-G8 active device
-    for line in out.splitlines():
-        parts = line.split()
-        if len(parts) >= 2 and parts[1] == "device" and "LMG820" not in line and parts[0] != "List":
-            return parts[0]
-
+    # S22 is authoritative; never fall back to another Android device.
+    return None
     return None
 
 

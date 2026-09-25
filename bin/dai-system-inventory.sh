@@ -41,17 +41,17 @@ echo "--- USB Bus Devices (lsusb) ---"
 lsusb 2>&1 || echo "lsusb not available"
 
 echo ""
-echo "--- USB Kernel Messages (LG G8 / Samsung detection) ---"
+echo "--- USB Kernel Messages (Samsung S22 / Samsung detection) ---"
 dmesg 2>/dev/null | grep -iE 'usb|android|samsung|lge|lg' | tail -n 25 || echo "dmesg restricted or empty"
 
 echo ""
 echo "--- Device Role Verification ---"
-echo "Target LG G8 serial:      LMG820UM5abe4c22 (Role: Remote Mic ONLY)"
+echo "Target Samsung S22 serial:      RFCT428ZRSZ (Role: Remote Mic ONLY)"
 echo "Target Samsung S22 serial: RFCT428ZRSZ      (Role: Phone / scrcpy / ADB ONLY)"
-if command -v adb >/dev/null 2>&1 && adb devices | grep -q "LMG820UM5abe4c22"; then
-    echo ">> LG G8 (LMG820UM5abe4c22): CONNECTED via ADB"
+if command -v adb >/dev/null 2>&1 && adb devices | grep -q "RFCT428ZRSZ"; then
+    echo ">> Samsung S22 (RFCT428ZRSZ): CONNECTED via ADB"
 else
-    echo ">> LG G8 (LMG820UM5abe4c22): NOT DETECTED via ADB (Physical connection or USB debug missing)"
+    echo ">> Samsung S22 (RFCT428ZRSZ): NOT DETECTED via ADB (Physical connection or USB debug missing)"
 fi
 if command -v adb >/dev/null 2>&1 && adb devices | grep -q "RFCT428ZRSZ"; then
     echo ">> Samsung S22 (RFCT428ZRSZ): CONNECTED via ADB (Standalone phone, NOT a mic)"
@@ -99,16 +99,16 @@ echo "--- Audio / Phone / DAI Unit Files ---"
 systemctl --user list-unit-files --type=service --no-pager 2>&1 | grep -iE 'dai|g8|audio|scrcpy|deskflow|mic' || echo "No matching unit files"
 
 echo ""
-echo "--- audiosource-g8.service Definition & Status ---"
-systemctl --user cat audiosource-g8.service 2>&1 || echo "audiosource-g8.service not found"
+echo "--- audiosource-s22.service Definition & Status ---"
+systemctl --user cat audiosource-s22.service 2>&1 || echo "audiosource-s22.service not found"
 echo "Status:"
-systemctl --user status audiosource-g8.service --no-pager -n 5 2>&1 || true
+systemctl --user status audiosource-s22.service --no-pager -n 5 2>&1 || true
 
 echo ""
-echo "--- g8-mic-router.service Definition & Status ---"
-systemctl --user cat g8-mic-router.service 2>&1 || echo "g8-mic-router.service not found"
+echo "--- s22-mic-router.service Definition & Status ---"
+systemctl --user cat s22-mic-router.service 2>&1 || echo "s22-mic-router.service not found"
 echo "Status:"
-systemctl --user status g8-mic-router.service --no-pager -n 5 2>&1 || true
+systemctl --user status s22-mic-router.service --no-pager -n 5 2>&1 || true
 
 echo ""
 echo "--- DAI Spine / Assistant Service Definition & Status ---"
@@ -152,9 +152,9 @@ section "6. SCRIPT INVENTORY & DUPLICATE ANALYSIS (PHASE 2)"
 echo "--- Scripts in ~/.local/bin/ ---"
 ls -la "$HOME/.local/bin" 2>&1 || echo "No ~/.local/bin"
 
-printf "\n--- Content of ~/.local/bin/g8-mic-router ---\n"
-if [ -f "$HOME/.local/bin/g8-mic-router" ]; then
-    cat "$HOME/.local/bin/g8-mic-router"
+printf "\n--- Content of ~/.local/bin/s22-mic-router ---\n"
+if [ -f "$HOME/.local/bin/s22-mic-router" ]; then
+    cat "$HOME/.local/bin/s22-mic-router"
 else
     echo "File not found"
 fi
@@ -171,14 +171,14 @@ ls -ld "$HOME/dai" "$HOME/dai-assistant" 2>&1 || true
 section "7. LIVE MICROPHONE CHAIN VERIFICATION (PHASE 3)"
 printf "Default PulseAudio Source: %s\n" "$(pactl get-default-source 2>/dev/null || echo 'unknown')"
 
-echo "Testing 2-second capture from android-87f1610 (LG G8 PipeWire node)..."
-if pactl list short sources 2>/dev/null | grep -q "android-87f1610"; then
-    timeout 2s parec --device="android-87f1610" --raw > /tmp/dai-inv-g8.raw 2>/dev/null || true
+echo "Testing 2-second capture from android-4f3b250 (Samsung S22 PipeWire node)..."
+if pactl list short sources 2>/dev/null | grep -q "android-4f3b250"; then
+    timeout 2s parec --device="android-4f3b250" --raw > /tmp/dai-inv-g8.raw 2>/dev/null || true
     G8_BYTES=$(wc -c < /tmp/dai-inv-g8.raw 2>/dev/null || echo 0)
     rm -f /tmp/dai-inv-g8.raw
-    printf ">> android-87f1610 result: %s bytes captured in 2s\n" "$G8_BYTES"
+    printf ">> android-4f3b250 result: %s bytes captured in 2s\n" "$G8_BYTES"
 else
-    printf ">> android-87f1610: Node NOT PRESENT in PulseAudio/PipeWire\n"
+    printf ">> android-4f3b250: Node NOT PRESENT in PulseAudio/PipeWire\n"
 fi
 
 echo "Testing 2-second capture from default source..."

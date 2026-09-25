@@ -30,7 +30,7 @@ echo "[1/5] Pinning scrcpy to Samsung S22 Ultra (RFCT428ZRSZ, audio disabled)...
 cat << 'EOF' > "$HOME/.local/bin/scrcpy"
 #!/bin/sh
 # DHakidd Scrcpy: strictly pinned to Samsung S22 Ultra (RFCT428ZRSZ)
-# Audio forwarding disabled to protect LG G8 microphone sovereignty
+# Audio forwarding disabled to protect Samsung S22 microphone sovereignty
 exec /usr/bin/scrcpy -s RFCT428ZRSZ --no-audio "$@"
 EOF
 chmod +x "$HOME/.local/bin/scrcpy"
@@ -96,8 +96,8 @@ if [ -d "$HOME/Desktop/00_COMMAND_CENTER" ]; then
     if [ -f "$HOME/.local/share/applications/D-A-I Command Center.desktop" ]; then
         cp -f "$HOME/.local/share/applications/D-A-I Command Center.desktop" "$HOME/Desktop/00_COMMAND_CENTER/"
     fi
-    if [ -f "$HOME/.local/share/applications/Restore LG G8 Microphone.desktop" ]; then
-        cp -f "$HOME/.local/share/applications/Restore LG G8 Microphone.desktop" "$HOME/Desktop/00_COMMAND_CENTER/"
+    if [ -f "$HOME/.local/share/applications/Restore Samsung S22 Microphone.desktop" ]; then
+        cp -f "$HOME/.local/share/applications/Restore Samsung S22 Microphone.desktop" "$HOME/Desktop/00_COMMAND_CENTER/"
     fi
     if [ -f "$HOME/.local/share/applications/dhakidd-s22.desktop" ]; then
         cp -f "$HOME/.local/share/applications/dhakidd-s22.desktop" "$HOME/Desktop/00_COMMAND_CENTER/"
@@ -108,15 +108,15 @@ fi
 echo "[5/5] Performing live closed-loop verification..."
 
 echo "--- ADB Devices ---"
-adb -s LMG820UM5abe4c22 get-state >/dev/null 2>&1 && echo "  [OK] LG G8 (LMG820UM5abe4c22): ONLINE" || echo "  [WARN] LG G8 not connected"
+adb -s RFCT428ZRSZ get-state >/dev/null 2>&1 && echo "  [OK] Samsung S22 (RFCT428ZRSZ): ONLINE" || echo "  [WARN] Samsung S22 not connected"
 adb -s RFCT428ZRSZ get-state >/dev/null 2>&1 && echo "  [OK] Samsung S22 (RFCT428ZRSZ): ONLINE" || echo "  [WARN] S22 not connected"
 
 echo "--- Audio Pipe ---"
-if pactl list short sources | grep -q "android-87f1610"; then
-    echo "  [OK] LG G8 PipeWire node (android-87f1610): ACTIVE"
-    pactl set-default-source "android-87f1610" 2>/dev/null || true
+if pactl list short sources | grep -q "android-4f3b250"; then
+    echo "  [OK] Samsung S22 PipeWire node (android-4f3b250): ACTIVE"
+    pactl set-default-source "android-4f3b250" 2>/dev/null || true
 else
-    echo "  [WARN] android-87f1610 not found in PipeWire"
+    echo "  [WARN] android-4f3b250 not found in PipeWire"
 fi
 
 echo "--- Dictator Check ---"

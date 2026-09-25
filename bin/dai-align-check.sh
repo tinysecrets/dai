@@ -12,15 +12,15 @@ echo "================================================================="
 adb devices -l
 
 echo ""
-echo "--- LG G8 (LMG820UM5abe4c22 - Microphone) Status ---"
-if adb devices | grep -q "LMG820UM5abe4c22[[:space:]]\+device"; then
-    echo ">> LG G8 is ONLINE and AUTHORIZED as device"
-elif adb devices | grep -q "LMG820UM5abe4c22[[:space:]]\+unauthorized"; then
-    echo ">> LG G8 is UNAUTHORIZED (Tap 'Allow USB Debugging' on phone screen)"
-elif adb devices | grep -q "LMG820UM5abe4c22"; then
-    echo ">> LG G8 detected in state: $(adb devices | grep "LMG820UM5abe4c22")"
+echo "--- Samsung S22 (RFCT428ZRSZ - Microphone) Status ---"
+if adb devices | grep -q "RFCT428ZRSZ[[:space:]]\+device"; then
+    echo ">> Samsung S22 is ONLINE and AUTHORIZED as device"
+elif adb devices | grep -q "RFCT428ZRSZ[[:space:]]\+unauthorized"; then
+    echo ">> Samsung S22 is UNAUTHORIZED (Tap 'Allow USB Debugging' on phone screen)"
+elif adb devices | grep -q "RFCT428ZRSZ"; then
+    echo ">> Samsung S22 detected in state: $(adb devices | grep "RFCT428ZRSZ")"
 else
-    echo ">> LG G8 is NOT LISTED in adb devices"
+    echo ">> Samsung S22 is NOT LISTED in adb devices"
 fi
 
 echo ""
@@ -99,5 +99,5 @@ echo "--- Currently Active Recording Streams (source-outputs) ---"
 pactl list source-outputs 2>/dev/null | grep -E 'Source Output|application.name|media.name|client' || echo "No active audio capture streams right now"
 
 echo ""
-echo "--- audiosource-g8 service process tree ---"
-systemctl --user status audiosource-g8.service --no-pager -n 5 2>&1 || true
+echo "--- audiosource-s22 service process tree ---"
+systemctl --user status audiosource-s22.service --no-pager -n 5 2>&1 || true
