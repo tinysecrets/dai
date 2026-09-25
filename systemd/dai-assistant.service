@@ -4,15 +4,12 @@ After=network.target
 Wants=network.target
 
 [Service]
-Type=simple
+Type=oneshot
 Environment=HOME=%h
 Environment=PATH=%h/.bun/bin:/usr/local/bin:/usr/bin:/bin
 WorkingDirectory=%h/dai
-ExecStartPre=%h/dai/bin/start-spine.sh
-ExecStartPre=%h/.bun/bin/vellum wake debian-ai
-ExecStart=%h/dai/bin/omni-daemon.py --interval 60
-Restart=always
-RestartSec=8
+ExecStart=%h/dai/bin/dai-assistant
+RemainAfterExit=yes
 KillMode=control-group
 
 [Install]
